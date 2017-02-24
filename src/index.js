@@ -19,12 +19,15 @@ class Main extends Component {
                 this.setState({songs : res});
             });
 
-        var LocalStorage = NativeModules.LocalStorage;
 
-        LocalStorage.squareMe(10, (error, number) => {
-            console.log(number);
+        var LocalStorage = NativeModules.LocalStorage;
+        LocalStorage.addNumber(10, (error, number) => {
+            console.log( "Hello " , number);
+            console.log("Error", error);
+            this.setState({number : number})
         })
 
+        LocalStorage.show("dsadasd",LocalStorage.Toast);
 
     }
 
@@ -39,7 +42,9 @@ class Main extends Component {
 
         return (
             <ScrollView>
+                <Text>{this.state.number}</Text>
                 <Header headerText="Music App" />
+
                 {this.list}
             </ScrollView>
         )
