@@ -10,6 +10,8 @@
 
 @implementation LocalStorage
 
+RCT_EXPORT_MODULE();
+
 - (NSDictionary *)constantsToExport {
   return @{@"greeting": @"Welcome to the DevDactic\n React Native Tutorial!"};
 }
@@ -19,7 +21,7 @@ RCT_EXPORT_METHOD(squareMe:(int)number:(RCTResponseSenderBlock)callback) {
   callback(@[[NSNull null], [NSNumber numberWithInt:(number*number)]]);
 }
 
-RCT_EXPORT_METHOD(minus:(int)number:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(evenNumber:(int)number:(RCTResponseSenderBlock)callback) {
   callback(@[[NSNull null], [NSNumber numberWithInt:(number % 2)]]);
 }
 

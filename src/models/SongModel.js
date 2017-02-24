@@ -12,7 +12,6 @@ class SongModel {
         this.trackPrice = json.trackPrice;
         this.country = json.country;
         this.image = json.artworkUrl100;
-        console.log(json.artworkUrl100);
     }
 
 

@@ -19,6 +19,13 @@ class Main extends Component {
                 this.setState({songs : res});
             });
 
+        var LocalStorage = NativeModules.LocalStorage;
+
+        LocalStorage.squareMe(10, (error, number) => {
+            console.log(number);
+        })
+
+
     }
 
     render() {
