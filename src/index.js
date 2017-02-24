@@ -21,13 +21,13 @@ class Main extends Component {
 
 
         var LocalStorage = NativeModules.LocalStorage;
-        LocalStorage.addNumber(10, (error, number) => {
+        LocalStorage.addNumber((number, error) => {
             console.log( "Hello " , number);
             console.log("Error", error);
             this.setState({number : number})
-        })
+        });
 
-        LocalStorage.show("dsadasd",LocalStorage.Toast);
+        LocalStorage.show("New Toast message from native image.",LocalStorage.Toast);
 
     }
 
