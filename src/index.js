@@ -21,13 +21,10 @@ class Main extends Component {
 
 
         var LocalStorage = NativeModules.LocalStorage;
-        LocalStorage.addNumber((number, error) => {
-            console.log( "Hello " , number);
-            console.log("Error", error);
-            this.setState({number : number})
+        LocalStorage.readFromFile((string, error) => {
+            console.log(string , " - ", error);
         });
 
-        LocalStorage.show("New Toast message from native image.",LocalStorage.Toast);
 
     }
 
@@ -42,9 +39,7 @@ class Main extends Component {
 
         return (
             <ScrollView>
-                <Text>{this.state.number}</Text>
                 <Header headerText="Music App" />
-
                 {this.list}
             </ScrollView>
         )
