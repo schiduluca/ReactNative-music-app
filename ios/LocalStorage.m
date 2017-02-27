@@ -25,5 +25,50 @@ RCT_EXPORT_METHOD(evenNumber:(int)number:(RCTResponseSenderBlock)callback) {
   callback(@[[NSNull null], [NSNumber numberWithInt:(number % 2)]]);
 }
 
+@synthesize fileMgr;
+@synthesize homeDir;
+@synthesize filename;
+@synthesize filepath;
+
+
+-(NSString *) setFilename{
+  filename = @"mytextfile.txt";
+  
+  return filename;
+}
+
+-(NSString *)GetDocumentDirectory{
+  fileMgr = [NSFileManager defaultManager];
+  homeDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+  
+  return homeDir;
+}
+
+
+/*Create a new file*/
+RCT_EXPORT_METHOD(writeToFile:(NSString *)textToWrite) {
+  filepath = [[NSString alloc] init];
+  NSError *err;
+  
+  filepath = [self.GetDocumentDirectory stringByAppendingPathComponent:self.setFilename];
+  
+  BOOL ok = [textToWrite writeToFile:filepath atomically:YES encoding:NSUnicodeStringEncoding error:&err];
+  
+  if (!ok) {
+    NSLog(@"Error writing file at %@\n%@",
+          filepath, [err localizedFailureReason]);
+  }
+  
+}
+
+RCT_EXPORT_METHOD(readFromFile: (RCTResponseSenderBlock) callBack) {
+  filepath = [[NSString alloc] init];
+  NSError *error;
+  filepath = [self.GetDocumentDirectory stringByAppendingPathComponent:self.setFilename];
+  NSString *txtInFile = [[NSString alloc] initWithContentsOfFile:filepath encoding:NSUnicodeStringEncoding error:&error];
+  callBack(@[[NSNull null], [NSString stringWithString:(txtInFile)]]);
+
+}
+
 
 @end

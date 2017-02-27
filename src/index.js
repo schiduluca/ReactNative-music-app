@@ -3,26 +3,25 @@ import {View, Text, ScrollView, NativeModules } from 'react-native';
 import Header from './components/HeaderApp';
 import SongModel from './models/SongModel';
 import axios from 'axios';
-import SongList from './components/SongList';
 import SongCell from './components/SongCell';
 
 
 class Main extends Component {
     constructor() {
         super();
-        this.state = {songs : null};
+        this.state = {songs: null};
         axios.get("https://itunes.apple.com/search?term=beatles")
             .then((result) => {
                 return result.data.results;
             })
             .then((res) => {
-                this.setState({songs : res});
+                this.setState({songs: res});
             });
 
 
         var LocalStorage = NativeModules.LocalStorage;
-        LocalStorage.readFromFile((string, error) => {
-            console.log(string , " - ", error);
+        LocalStorage.readFromFile((text) => {
+            console.log(text);
         });
 
 
