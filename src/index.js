@@ -1,49 +1,28 @@
 import React, {Component} from 'react'
-import {View, Text, ScrollView, NativeModules } from 'react-native';
+import {View, Text, ScrollView, NativeModules, TouchableOpacity } from 'react-native';
 import Header from './components/HeaderApp';
-import SongModel from './models/SongModel';
-import axios from 'axios';
-import SongCell from './components/SongCell';
-
+import SongList from './components/SongList';
+import action from './redux/SongStore';
+import ActionTypes from './constants/ActionTypes';
 
 class Main extends Component {
     constructor() {
         super();
-        this.state = {songs: null};
-        axios.get("https://itunes.apple.com/search?term=beatles")
-            .then((result) => {
-                return result.data.results;
-            })
-            .then((res) => {
-                this.setState({songs: res});
-            });
-
-
-        var LocalStorage = NativeModules.LocalStorage;
-        LocalStorage.readFromFile((text) => {
-            console.log(text);
-        });
-
 
     }
+
+
 
     render() {
-        this.list = null;
-
-        if(this.state.songs) {
-            this.list = this.state.songs.map((song, i) => {
-                return <SongCell key={i} song={new SongModel(song)}/>
-            })
-        }
-
         return (
-            <ScrollView>
-                <Header headerText="Music App" />
-                {this.list}
-            </ScrollView>
+            <View>
+                <TouchableOpacity onClick={() => action(ActionTypes.FETCH_SONGS)}>
+                    <Header headerText="Music App" />
+                </TouchableOpacity>
+                <SongList />
+            </View>
         )
     }
-
-};
+}
 
 export default Main

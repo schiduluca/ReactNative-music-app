@@ -1,3 +1,5 @@
+import ActionTypes from '../constants/ActionTypes';
+
 export default function reducer(state={
     songs : [],
     fetching : false,
@@ -5,10 +7,11 @@ export default function reducer(state={
 }, action) {
 
     switch (action.type) {
-        case "FETCH_SONGS" : {
+        case ActionTypes.FETCH_SONGS : {
+            console.log("Hey there");
             return {...state,  fetching : true}
         }
-        case "FETCH_SONGS_DONE" : {
+        case ActionTypes.FETCH_SONGS_DONE : {
             return {
                 ...state,
                 fetching : false,

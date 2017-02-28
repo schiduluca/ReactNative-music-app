@@ -20,12 +20,12 @@ class SongCell extends Component {
             <View>
                 <Card>
                     <CardItem>
-                        <Text>{this.props.song.trackName}</Text>
-                        <Text>{this.props.song.artistName}</Text>
+                        <Text style={styles.textStyle}>{this.props.song.trackName}</Text>
+                        <Text style={styles.textStyle}>{this.props.song.artistName}</Text>
                     </CardItem>
 
                     <CardItem>
-                        <Text>{this.props.song.country}</Text>
+                        <Text style={styles.textStyle}>{this.props.song.country}</Text>
                         <Image style={{width: 100, height: 100}}
                                          source={{ uri : this.props.song.image}}/>
                     </CardItem>
@@ -34,5 +34,11 @@ class SongCell extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    textStyle : {
+        fontFamily : 'sofia' || 'Sofia-Regular'
+    }
+});
 
 export default SongCell;

@@ -1,34 +1,48 @@
 import React, { Component } from 'react';
 import {
-    AppRegistry,
-    StyleSheet,
-    Text, Header, Icon, InputGroup, Button, Input, TouchableHighlight,
+    AppRegistry, NativeModules,
+    StyleSheet, ScrollView,
+    Text, Header, Button,
     View
 } from 'react-native';
 
-import Card from './Card';
-import CardItem from './CardItem';
+import axios from 'axios';
+import SongModel from '../models/SongModel';
+import SongCell from './SongCell';
+import localStorageUtils from '../utils/LocalStorageUtils';
 
 
 class SongList extends Component {
     constructor() {
         super();
+        this.state = {songs: null};
+        axios.get("https://itunes.apple.com/search?term=beatles")
+            .then((result) => {
+                return result.data.results;
+            })
+            .then((res) => {
+                this.setState({songs: res});
+            });
+
+
+        console.log(localStorageUtils.readFromFile());
     }
 
 
     render() {
+
+        this.list = null;
+
+        if(this.state.songs) {
+            this.list = this.state.songs.map((song, i) => {
+                return <SongCell key={i} song={new SongModel(song)}/>
+            })
+        }
+
         return(
-            <Card>
-                <CardItem>
-                    <Text>Hello from the other side</Text>
-                    <Text>FSdfsdfsdf</Text>
-                </CardItem>
-
-                <CardItem>
-                    <Text>Adele</Text>
-                </CardItem>
-            </Card>
-
+           <ScrollView>
+               {this.list}
+           </ScrollView>
 
         );
     }

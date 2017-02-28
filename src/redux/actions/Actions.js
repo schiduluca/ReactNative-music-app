@@ -1,7 +1,11 @@
-import ServiceApi from '../../networking/AppleServiceApi';
+import ActionTypes from '../../constants/ActionTypes';
 
-export default function fetchSongs(text) {
-    return function (dispatch) {
-        ServiceApi.fetchData(text, dispatch);
-    }
-}
+export const searchSongs = (payload) => ({
+    type : ActionTypes.SEARCH_SONGS,
+    payload
+});
+
+export const songsFetched = (songs) => ({
+    type : ActionTypes.FETCH_SONGS_DONE,
+    songs
+});

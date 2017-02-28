@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {
     AppRegistry,
     StyleSheet,
-    Text, Header, Icon, InputGroup, Button, Input, TouchableHighlight,
+    Text, Header,InputGroup, Button, Input, TouchableHighlight,
     View, NativeModules, Navigator, NavigationBar
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 
 export default  class HeaderApp extends Component {
@@ -15,9 +17,16 @@ export default  class HeaderApp extends Component {
 
     render() {
 
+        const myButton = (
+            <Icon.Button name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
+                Login with Facebook
+            </Icon.Button>
+        );
+
         return(
             <View style={styles.header}>
                 <Text style={styles.textSyle}>{this.props.headerText}</Text>
+                {myButton}
             </View>
         );
     }
@@ -28,7 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor : '#F8F8F8',
         justifyContent : 'center',
         alignItems : 'center',
-        height : 60,
+        height : 100,
         paddingTop : 15,
         shadowColor : '#000000',
         shadowOffset : {width : 0, height : 2},

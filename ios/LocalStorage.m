@@ -61,13 +61,17 @@ RCT_EXPORT_METHOD(writeToFile:(NSString *)textToWrite) {
   
 }
 
-RCT_EXPORT_METHOD(readFromFile: (RCTResponseSenderBlock) callBack) {
+RCT_REMAP_METHOD(readFromFile, resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
   filepath = [[NSString alloc] init];
   NSError *error;
   filepath = [self.GetDocumentDirectory stringByAppendingPathComponent:self.setFilename];
   NSString *txtInFile = [[NSString alloc] initWithContentsOfFile:filepath encoding:NSUnicodeStringEncoding error:&error];
-  callBack(@[[NSNull null], [NSString stringWithString:(txtInFile)]]);
-
+  if(txtInFile) {
+    resolve(txtInFile);
+  } else {
+    reject(@"no_events", @"There were no events", error);
+  }
 }
 
 

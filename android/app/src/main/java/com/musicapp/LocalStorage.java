@@ -56,7 +56,7 @@ public class LocalStorage extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void writeToFile(String message) {
+    public void writeToFile(String message, Callback callback) {
         try {
             FileOutputStream fout = getCurrentActivity().openFileOutput("react-file", Context.MODE_PRIVATE);
             fout.write(message.getBytes());

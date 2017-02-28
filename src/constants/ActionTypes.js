@@ -1,0 +1,5 @@
+export default ActionTypes = {
+    FETCH_SONGS : "FETCH_SONGS",
+    FETCH_SONGS_DONE : "FETCH_SONGS_DONE",
+    SEARCH_SONGS : "SEARCH_SONGS"
+};
