@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {View, Text, ScrollView, NativeModules, TouchableOpacity } from 'react-native';
-import Header from './components/HeaderApp';
-import SongList from './components/SongList';
-import action from './redux/SongStore';
-import ActionTypes from './constants/ActionTypes';
+import {View, Text, ScrollView, NativeModules, TextInput } from 'react-native';
+import configureStore from './redux/SongStore';
+import {Provider} from 'react-redux';
+import NavigatorApp from './components/NavigatorApp';
+
+const songStore = configureStore();
 
 class Main extends Component {
     constructor() {
@@ -13,14 +14,18 @@ class Main extends Component {
 
 
 
+    componentDidMount() {
+    }
+
+
     render() {
         return (
-            <View>
-                <TouchableOpacity onClick={() => action(ActionTypes.FETCH_SONGS)}>
-                    <Header headerText="Music App" />
-                </TouchableOpacity>
-                <SongList />
-            </View>
+            <Provider store={songStore}>
+                <View>
+                    <NavigatorApp/>
+                </View>
+            </Provider>
+
         )
     }
 }

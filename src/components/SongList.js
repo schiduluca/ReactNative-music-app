@@ -2,51 +2,94 @@ import React, { Component } from 'react';
 import {
     AppRegistry, NativeModules,
     StyleSheet, ScrollView,
-    Text, Header, Button,
-    View
+    Text, Header, Button, Dimensions,
+    View, TextInput, ListView
 } from 'react-native';
+import * as Progress from 'react-native-progress';
 
-import axios from 'axios';
 import SongModel from '../models/SongModel';
-import SongCell from './SongCell';
-import localStorageUtils from '../utils/LocalStorageUtils';
+import SongListItem from './SongListItem';
+import searchSongs from '../redux/actions/fetchSongs';
+import HeaderApp from './HeaderApp';
+import {connect} from 'react-redux';
+let ScreenHeight = Dimensions.get("window").height;
+
+
 
 
 class SongList extends Component {
-    constructor() {
-        super();
-        this.state = {songs: null};
-        axios.get("https://itunes.apple.com/search?term=beatles")
-            .then((result) => {
-                return result.data.results;
-            })
-            .then((res) => {
-                this.setState({songs: res});
-            });
+    constructor(props) {
+        super(props);
+        this.state = {songs: null, dataSource : []};
 
-
-        console.log(localStorageUtils.readFromFile());
     }
 
+    componentDidMount() {
+        this.props.dispatch(searchSongs('beatles'));
+    }
+
+    componentWillReceiveProps(props) {
+        this.state.songs = props.songs.songs;
+        this.state.downloadedSongs = props.songs.downloadedSongs;
+        this.state.showDownloaded = props.songs.showDownloaded;
+
+    }
 
     render() {
 
         this.list = null;
+        if(this.state.songs && this.props.songs.fetching == false) {
+            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            this.state.dataSource = ds.cloneWithRows(this.state.songs.map((song) => {
+                return new SongModel(song)}));
+            this.list = <ListView
+                dataSource={this.state.dataSource}
+                renderRow={(rowData) => <SongListItem song={rowData}/>}
+            />;
+        } else {
+            this.list = <Progress.Circle size={100} indeterminate={true} />
+        }
 
-        if(this.state.songs) {
-            this.list = this.state.songs.map((song, i) => {
-                return <SongCell key={i} song={new SongModel(song)}/>
-            })
+        if(this.state.showDownloaded === true) {
+            console.log("IT IS TRUE");
+            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            let list = [];
+            for(var i = 0; i < this.state.downloadedSongs.length; i++) {
+                list.push(new SongModel(this.state.downloadedSongs.item(i)));
+            }
+            this.state.dataSource = ds.cloneWithRows(list);
+            this.list = <ListView
+                dataSource={this.state.dataSource}
+                renderRow={(rowData) => <SongListItem song={rowData}/>}
+            />;
         }
 
         return(
-           <ScrollView>
-               {this.list}
-           </ScrollView>
+            <View style={styles.header}>
+                <HeaderApp/>
+                {this.list}
+            </View>
+
 
         );
     }
 }
 
+const styles = StyleSheet.create({
+    header: {
+        height : ScreenHeight - 65,
+    }
+});
 
-export default SongList;
+const mapStateToProps = state => {
+    return {
+        songs : state.songs,
+        downloadedSongs : state.downloadedSongs,
+        showDownloaded : state.showDownloaded,
+
+    }
+};
+
+
+
+export default connect(mapStateToProps)(SongList);

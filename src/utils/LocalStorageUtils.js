@@ -4,18 +4,14 @@ import { NativeModules } from 'react-native';
 class LocalStorageUtils {
 
     constructor() {
-        this.LocalStorage = NativeModules.LocalStorage;
-    }
 
-    readFromFile() {
-        return this.asyncRead();
+        this.LocalStorage = NativeModules.LocalStorage;
     }
 
     async asyncRead()  {
         try {
-            console.log("Hey there sddf");
-            messaage =  await this.LocalStorage.readFromFile();
-            console.log(messaage);
+            let message =  await this.LocalStorage.readFromFile();
+            return message;
         } catch(error) {
             console.log(error);
             return null;
@@ -23,7 +19,7 @@ class LocalStorageUtils {
     }
 
     writeToFile(file) {
-
+        this.LocalStorage.writeToFile("Hello world");
     }
 
 }

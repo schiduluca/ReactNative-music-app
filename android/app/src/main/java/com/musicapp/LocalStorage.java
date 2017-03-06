@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -45,15 +46,7 @@ public class LocalStorage extends ReactContextBaseJavaModule {
         return "LocalStorage";
     }
 
-    @ReactMethod
-    public void addNumber(Callback successCallback) {
-        successCallback.invoke(34);
-    }
 
-    @ReactMethod
-    public void show(String message, int duration) {
-        Toast.makeText(getReactApplicationContext(), message, duration).show();
-    }
 
     @ReactMethod
     public void writeToFile(String message, Callback callback) {
@@ -69,12 +62,13 @@ public class LocalStorage extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void readFromFile(Callback callback) {
+    public void readFromFile(Promise promise) {
         try {
             FileInputStream fin = getCurrentActivity().openFileInput("react-file");
             DataInputStream dataInputStream = new DataInputStream(fin);
-            callback.invoke(dataInputStream.readLine());
+            promise.resolve(dataInputStream.readLine());
         } catch (FileNotFoundException e) {
+            promise.reject("File was not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

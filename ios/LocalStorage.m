@@ -46,7 +46,7 @@ RCT_EXPORT_METHOD(evenNumber:(int)number:(RCTResponseSenderBlock)callback) {
 
 
 /*Create a new file*/
-RCT_EXPORT_METHOD(writeToFile:(NSString *)textToWrite) {
+RCT_EXPORT_METHOD(writeToFile : (NSString *)textToWrite) {
   filepath = [[NSString alloc] init];
   NSError *err;
   
@@ -67,7 +67,7 @@ RCT_REMAP_METHOD(readFromFile, resolver:(RCTPromiseResolveBlock)resolve
   NSError *error;
   filepath = [self.GetDocumentDirectory stringByAppendingPathComponent:self.setFilename];
   NSString *txtInFile = [[NSString alloc] initWithContentsOfFile:filepath encoding:NSUnicodeStringEncoding error:&error];
-  if(txtInFile) {
+  if(true) {
     resolve(txtInFile);
   } else {
     reject(@"no_events", @"There were no events", error);

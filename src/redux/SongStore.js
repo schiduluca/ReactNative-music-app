@@ -1,17 +1,16 @@
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import reducer from "./Reducer";
-import helloSaga from './sagas/HelloSaga'
+import reducer from "./reducers/Reducer";
+import sagas from './sagas'
 
 
-const sagaMiddleware = createSagaMiddleware();
+const configureStore = () => {
+    const sagaMiddleware = createSagaMiddleware();
+    return {
+        ...createStore(reducer,
+            applyMiddleware(sagaMiddleware)),
+        runSaga: sagaMiddleware.run(sagas)
+    };
+};
 
-export default songStore = createStore(
-    reducer,
-    applyMiddleware(sagaMiddleware)
-);
-
-
-sagaMiddleware.run(helloSaga);
-
-export const action = type => songStore.dispatch({type});
+export default configureStore;

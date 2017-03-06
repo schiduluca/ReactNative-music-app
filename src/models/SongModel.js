@@ -1,3 +1,5 @@
+import {Dimensions} from 'react-native';
+let deviceWidth = Dimensions.get('window').width;
 
 class SongModel {
 
@@ -11,7 +13,9 @@ class SongModel {
         this.trackName = json.trackName;
         this.trackPrice = json.trackPrice;
         this.country = json.country;
-        this.image = json.artworkUrl100;
+        this.image = json.artworkUrl100.replace('100', deviceWidth);
+        this.image = this.image.replace('100', deviceWidth);
+        this.trackId = json.trackId;
     }
 
 
